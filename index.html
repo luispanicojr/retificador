@@ -225,13 +225,21 @@
       };
 
       try {
-        await fetch(SCRIPT_URL, {
+        // Cria os parâmetros de formulário tradicional (100% compatível com Apps Script)
+        const formData = new URLSearchParams();
+        for (const key in payload) {
+        formData.append(key, payload[key]);
+          }
+
+          await fetch(SCRIPT_URL, {
           method: "POST",
           mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formData.toString()
         });
-
+      
         statusMsg.className = "status success";
         statusMsg.innerText = "Checklist registrado com sucesso!";
         statusMsg.style.display = "block";
