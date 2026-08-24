@@ -214,7 +214,6 @@
     </div>
 
     <form id="checklistForm">
-      <!-- Seletor de Painel / Retificador -->
       <div class="section-divider">
         <span>Local / Equipamento</span>
         <div class="line"></div>
@@ -222,7 +221,7 @@
 
       <div class="form-group">
         <label for="equipamento">Selecione o Painel / Retificador</label>
-        <select id="equipamento" class="select-equipamento" required>
+        <select id="equipamento" class="select-equipamento">
           <option value="CGT-1">CGT - 1</option>
           <option value="CGT-2">CGT - 2</option>
           <option value="SUBESTACAO-1">Subestação 1</option>
@@ -230,7 +229,6 @@
         </select>
       </div>
 
-      <!-- Dados Gerais -->
       <div class="section-divider">
         <span>Informações da Inspeção</span>
         <div class="line"></div>
@@ -262,7 +260,7 @@
         </div>
       </div>
 
-      <!-- LAYOUT 1: EXCLUSIVO CGT-1 -->
+      <!-- LAYOUT 1: CGT-1 -->
       <div id="fieldsCgt1">
         <div class="section-divider">
           <span>Baterias</span>
@@ -402,7 +400,7 @@
         </div>
       </div>
 
-      <!-- LAYOUT 3: EXCLUSIVO SUBESTAÇÃO 2 -->
+      <!-- LAYOUT 3: SUBESTAÇÃO 2 -->
       <div id="fieldsSub2" class="hidden">
         <div class="section-divider">
           <span>Status & Alimentação AC</span>
@@ -465,6 +463,7 @@
   </div>
 
   <script>
+    // Cole aqui o link Web App da sua implantação
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyohOxP74eGK_PAIPfsEUxtmBLLuvZp3m1s3ZA1eEmUb0NA_D2pVADLEnpNAWJiCjK6/exec";
 
     const selectEquip = document.getElementById("equipamento");
@@ -473,7 +472,6 @@
     const fieldsTrifasico = document.getElementById("fieldsTrifasico");
     const fieldsSub2 = document.getElementById("fieldsSub2");
 
-    // Alternância de campos na tela conforme seleção
     selectEquip.addEventListener("change", (e) => {
       const equip = e.target.value;
       badgeTag.innerText = equip;
@@ -491,7 +489,6 @@
       }
     });
 
-    // Auto-preenchimento de data/hora atuais
     window.addEventListener("DOMContentLoaded", () => {
       const now = new Date();
       document.getElementById("data").value = now.toISOString().split("T")[0];
@@ -567,7 +564,7 @@
         });
 
         statusMsg.className = "status-box success";
-        statusMsg.innerText = `✓ Inspeção gravada com sucesso na aba [${equip}]!`;
+        statusMsg.innerText = `✓ Inspeção salva na aba [${equip}] com sucesso!`;
         statusMsg.style.display = "block";
 
         const currentDate = document.getElementById("data").value;
