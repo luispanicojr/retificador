@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checklist Baterias / Retificador — CGT-1</title>
+  <title>Checklist Técnico de Retificadores</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
 
     .container {
       width: 100%;
-      max-width: 620px;
+      max-width: 650px;
       background-color: #131b26;
       border: 1px solid #243247;
       border-radius: 16px;
@@ -62,9 +62,9 @@
       background-color: rgba(16, 185, 129, 0.12);
       color: #10b981;
       border: 1px solid rgba(16, 185, 129, 0.35);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 20px;
       letter-spacing: 0.05em;
     }
@@ -147,8 +147,10 @@
       box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
     }
 
-    input::placeholder {
-      color: #435368;
+    .select-equipamento {
+      border: 1px solid #10b981;
+      font-weight: 700;
+      background-color: #142433;
     }
 
     .submit-btn {
@@ -166,15 +168,7 @@
       transition: all 0.2s ease;
     }
 
-    .submit-btn:hover {
-      opacity: 0.95;
-      transform: translateY(-1px);
-    }
-
-    .submit-btn:active {
-      transform: translateY(0);
-    }
-
+    .submit-btn:hover { opacity: 0.95; transform: translateY(-1px); }
     .submit-btn:disabled {
       background: #2a3749;
       color: #64748b;
@@ -204,6 +198,8 @@
       border: 1px solid #ef4444;
       color: #fca5a5;
     }
+
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -214,11 +210,27 @@
         <h1>Checklist Técnico</h1>
         <p>Baterias & Retificadores</p>
       </div>
-      <div class="tag-badge">CGT-1</div>
+      <div class="tag-badge" id="badgeTag">CGT-1</div>
     </div>
 
     <form id="checklistForm">
-      <!-- Seção Dados Gerais -->
+      <!-- Seletor de Painel / Retificador -->
+      <div class="section-divider">
+        <span>Local / Equipamento</span>
+        <div class="line"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="equipamento">Selecione o Painel / Retificador</label>
+        <select id="equipamento" class="select-equipamento" required>
+          <option value="CGT-1">CGT - 1</option>
+          <option value="CGT-2">CGT - 2</option>
+          <option value="SUBESTACAO-1">Subestação 1</option>
+          <option value="SUBESTACAO-2">Subestação 2</option>
+        </select>
+      </div>
+
+      <!-- Dados Gerais -->
       <div class="section-divider">
         <span>Informações da Inspeção</span>
         <div class="line"></div>
@@ -250,72 +262,197 @@
         </div>
       </div>
 
-      <!-- Seção Baterias -->
-      <div class="section-divider">
-        <span>Status do Banco de Baterias</span>
-        <div class="line"></div>
+      <!-- LAYOUT 1: EXCLUSIVO CGT-1 -->
+      <div id="fieldsCgt1">
+        <div class="section-divider">
+          <span>Baterias</span>
+          <div class="line"></div>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="cgt1Nivel">Nível</label>
+            <input type="text" id="cgt1Nivel" placeholder="Ex: NA, N, MA" />
+          </div>
+          <div class="form-group">
+            <label for="cgt1Alarme">Alarme</label>
+            <select id="cgt1Alarme">
+              <option value="Não">Não</option>
+              <option value="Sim">Sim</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cgt1Ahc">AHC %</label>
+            <input type="number" step="0.1" id="cgt1Ahc" placeholder="100" />
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <span>Retificador & Consumidor</span>
+          <div class="line"></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="cgt1RetTensao">Retificador - Tensão (V)</label>
+            <input type="number" step="0.1" id="cgt1RetTensao" placeholder="Ex: 132" />
+          </div>
+          <div class="form-group">
+            <label for="cgt1RetCorrente">Retificador - Corrente (A)</label>
+            <input type="number" step="0.1" id="cgt1RetCorrente" placeholder="Ex: 5.7" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="cgt1ConsTensao">Consumidor - Tensão (V)</label>
+            <input type="number" step="0.1" id="cgt1ConsTensao" placeholder="Ex: 124" />
+          </div>
+          <div class="form-group">
+            <label for="cgt1ConsCorrente">Consumidor - Corrente (A)</label>
+            <input type="number" step="0.1" id="cgt1ConsCorrente" placeholder="Ex: 5.7" />
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <span>Alimentação AC</span>
+          <div class="line"></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="cgt1Ac">AC (V)</label>
+            <input type="number" step="0.1" id="cgt1Ac" placeholder="Ex: 432" />
+          </div>
+          <div class="form-group">
+            <label for="cgt1CorrenteAc">Corrente</label>
+            <input type="number" step="0.1" id="cgt1CorrenteAc" placeholder="Ex: 0" />
+          </div>
+        </div>
       </div>
 
-      <div class="grid-3">
-        <div class="form-group">
-          <label for="nivel">Nível</label>
-          <input type="text" id="nivel" required placeholder="Ex: NA, N, MA" />
+      <!-- LAYOUT 2: CGT-2 e SUBESTAÇÃO 1 -->
+      <div id="fieldsTrifasico" class="hidden">
+        <div class="section-divider">
+          <span>Baterias (1)</span>
+          <div class="line"></div>
         </div>
-        <div class="form-group">
-          <label for="alarmeBateria">Alarme</label>
-          <select id="alarmeBateria" required>
-            <option value="Não">Não</option>
-            <option value="Sim">Sim</option>
-          </select>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="triNivel">Nível</label>
+            <input type="text" id="triNivel" placeholder="Ex: NA, N, MA" />
+          </div>
+          <div class="form-group">
+            <label for="triAlarme">Alarme</label>
+            <select id="triAlarme">
+              <option value="Não">Não</option>
+              <option value="Sim">Sim</option>
+            </select>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="ahcPercent">AHC %</label>
-          <input type="number" step="0.1" id="ahcPercent" required placeholder="100" />
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="triBatTensao">Bateria - Tensão (V)</label>
+            <input type="number" step="0.1" id="triBatTensao" />
+          </div>
+          <div class="form-group">
+            <label for="triBatCorrente">Bateria - Corrente (A)</label>
+            <input type="number" step="0.1" id="triBatCorrente" />
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <span>Consumidor (2) & Retificador (3)</span>
+          <div class="line"></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="triConsTensao">Consumidor - Tensão (V)</label>
+            <input type="number" step="0.1" id="triConsTensao" />
+          </div>
+          <div class="form-group">
+            <label for="triConsCorrente">Consumidor - Corrente (A)</label>
+            <input type="number" step="0.1" id="triConsCorrente" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="triRetTensao">Retificador - Tensão (V)</label>
+            <input type="number" step="0.1" id="triRetTensao" />
+          </div>
+          <div class="form-group">
+            <label for="triRetCorrente">Retificador - Corrente (A)</label>
+            <input type="number" step="0.1" id="triRetCorrente" />
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <span>Rede CA (6) Trifásica</span>
+          <div class="line"></div>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="triRedeR">Fase R</label>
+            <input type="number" step="0.1" id="triRedeR" placeholder="V" />
+          </div>
+          <div class="form-group">
+            <label for="triRedeS">Fase S</label>
+            <input type="number" step="0.1" id="triRedeS" placeholder="V" />
+          </div>
+          <div class="form-group">
+            <label for="triRedeT">Fase T</label>
+            <input type="number" step="0.1" id="triRedeT" placeholder="V" />
+          </div>
         </div>
       </div>
 
-      <!-- Seção Retificador & Consumidor -->
-      <div class="section-divider">
-        <span>Retificador & Consumidor (CC)</span>
-        <div class="line"></div>
-      </div>
+      <!-- LAYOUT 3: EXCLUSIVO SUBESTAÇÃO 2 -->
+      <div id="fieldsSub2" class="hidden">
+        <div class="section-divider">
+          <span>Status & Alimentação AC</span>
+          <div class="line"></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="sub2Alarme">Alarme</label>
+            <select id="sub2Alarme">
+              <option value="Não">Não</option>
+              <option value="Sim">Sim</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sub2CorrenteAc">Corrente (AC)</label>
+            <input type="number" step="0.1" id="sub2CorrenteAc" />
+          </div>
+        </div>
 
-      <div class="grid-2">
-        <div class="form-group">
-          <label for="retificadorTensao">Retificador - Tensão (V)</label>
-          <input type="number" step="0.1" id="retificadorTensao" required placeholder="Ex: 132.0" />
+        <div class="section-divider">
+          <span>Medições CC & Carga</span>
+          <div class="line"></div>
         </div>
-        <div class="form-group">
-          <label for="retificadorCorrente">Retificador - Corrente (A)</label>
-          <input type="number" step="0.1" id="retificadorCorrente" required placeholder="Ex: 5.7" />
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="sub2Cons">Cons</label>
+            <input type="number" step="0.1" id="sub2Cons" />
+          </div>
+          <div class="form-group">
+            <label for="sub2CorBat">Cor Bat</label>
+            <input type="number" step="0.1" id="sub2CorBat" />
+          </div>
+          <div class="form-group">
+            <label for="sub2CorCons">Cor Cons</label>
+            <input type="number" step="0.1" id="sub2CorCons" />
+          </div>
         </div>
-      </div>
-
-      <div class="grid-2">
-        <div class="form-group">
-          <label for="consumidorTensao">Consumidor - Tensão (V)</label>
-          <input type="number" step="0.1" id="consumidorTensao" required placeholder="Ex: 124.0" />
-        </div>
-        <div class="form-group">
-          <label for="consumidorCorrente">Consumidor - Corrente (A)</label>
-          <input type="number" step="0.1" id="consumidorCorrente" required placeholder="Ex: 5.7" />
-        </div>
-      </div>
-
-      <!-- Seção Alimentação AC -->
-      <div class="section-divider">
-        <span>Entrada AC Retificador</span>
-        <div class="line"></div>
-      </div>
-
-      <div class="grid-2">
-        <div class="form-group">
-          <label for="retificadorAc">Tensão AC (V)</label>
-          <input type="number" step="0.1" id="retificadorAc" required placeholder="Ex: 432.0" />
-        </div>
-        <div class="form-group">
-          <label for="retificadorCorrenteAc">Corrente AC</label>
-          <input type="number" step="0.1" id="retificadorCorrenteAc" required placeholder="Ex: 0" />
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="sub2CorTotal">Cor Total</label>
+            <input type="number" step="0.1" id="sub2CorTotal" />
+          </div>
+          <div class="form-group">
+            <label for="sub2TempCarga">Temp Carga</label>
+            <input type="number" step="0.1" id="sub2TempCarga" placeholder="°C" />
+          </div>
+          <div class="form-group">
+            <label for="sub2RedeFf">Rede (FF)</label>
+            <input type="number" step="0.1" id="sub2RedeFf" />
+          </div>
         </div>
       </div>
 
@@ -329,6 +466,30 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyohOxP74eGK_PAIPfsEUxtmBLLuvZp3m1s3ZA1eEmUb0NA_D2pVADLEnpNAWJiCjK6/exec";
+
+    const selectEquip = document.getElementById("equipamento");
+    const badgeTag = document.getElementById("badgeTag");
+    const fieldsCgt1 = document.getElementById("fieldsCgt1");
+    const fieldsTrifasico = document.getElementById("fieldsTrifasico");
+    const fieldsSub2 = document.getElementById("fieldsSub2");
+
+    // Alternância de campos na tela conforme seleção
+    selectEquip.addEventListener("change", (e) => {
+      const equip = e.target.value;
+      badgeTag.innerText = equip;
+
+      fieldsCgt1.classList.add("hidden");
+      fieldsTrifasico.classList.add("hidden");
+      fieldsSub2.classList.add("hidden");
+
+      if (equip === "CGT-1") {
+        fieldsCgt1.classList.remove("hidden");
+      } else if (equip === "CGT-2" || equip === "SUBESTACAO-1") {
+        fieldsTrifasico.classList.remove("hidden");
+      } else if (equip === "SUBESTACAO-2") {
+        fieldsSub2.classList.remove("hidden");
+      }
+    });
 
     // Auto-preenchimento de data/hora atuais
     window.addEventListener("DOMContentLoaded", () => {
@@ -348,21 +509,47 @@
       submitBtn.innerText = "Enviando dados...";
       statusMsg.style.display = "none";
 
-      const payload = {
+      const equip = selectEquip.value;
+      let payload = {
+        equipamento: equip,
         data: document.getElementById("data").value,
         hora: document.getElementById("hora").value,
         turno: document.getElementById("turno").value,
-        nome: document.getElementById("nome").value,
-        nivel: document.getElementById("nivel").value,
-        alarmeBateria: document.getElementById("alarmeBateria").value,
-        ahcPercent: document.getElementById("ahcPercent").value,
-        retificadorTensao: document.getElementById("retificadorTensao").value,
-        retificadorCorrente: document.getElementById("retificadorCorrente").value,
-        consumidorTensao: document.getElementById("consumidorTensao").value,
-        consumidorCorrente: document.getElementById("consumidorCorrente").value,
-        retificadorAc: document.getElementById("retificadorAc").value,
-        retificadorCorrenteAc: document.getElementById("retificadorCorrenteAc").value
+        nome: document.getElementById("nome").value
       };
+
+      if (equip === "CGT-1") {
+        payload.nivel = document.getElementById("cgt1Nivel").value;
+        payload.alarme = document.getElementById("cgt1Alarme").value;
+        payload.ahcPercent = document.getElementById("cgt1Ahc").value;
+        payload.retificadorTensao = document.getElementById("cgt1RetTensao").value;
+        payload.retificadorCorrente = document.getElementById("cgt1RetCorrente").value;
+        payload.consumidorTensao = document.getElementById("cgt1ConsTensao").value;
+        payload.consumidorCorrente = document.getElementById("cgt1ConsCorrente").value;
+        payload.ac = document.getElementById("cgt1Ac").value;
+        payload.corrente = document.getElementById("cgt1CorrenteAc").value;
+      } else if (equip === "CGT-2" || equip === "SUBESTACAO-1") {
+        payload.nivel = document.getElementById("triNivel").value;
+        payload.alarme = document.getElementById("triAlarme").value;
+        payload.batTensao = document.getElementById("triBatTensao").value;
+        payload.batCorrente = document.getElementById("triBatCorrente").value;
+        payload.consTensao = document.getElementById("triConsTensao").value;
+        payload.consCorrente = document.getElementById("triConsCorrente").value;
+        payload.retifTensao = document.getElementById("triRetifTensao").value;
+        payload.retifCorrente = document.getElementById("triRetifCorrente").value;
+        payload.redeR = document.getElementById("triRedeR").value;
+        payload.redeS = document.getElementById("triRedeS").value;
+        payload.redeT = document.getElementById("triRedeT").value;
+      } else if (equip === "SUBESTACAO-2") {
+        payload.alarme = document.getElementById("sub2Alarme").value;
+        payload.correnteAc = document.getElementById("sub2CorrenteAc").value;
+        payload.cons = document.getElementById("sub2Cons").value;
+        payload.corBat = document.getElementById("sub2CorBat").value;
+        payload.corCons = document.getElementById("sub2CorCons").value;
+        payload.corTotal = document.getElementById("sub2CorTotal").value;
+        payload.tempCarga = document.getElementById("sub2TempCarga").value;
+        payload.redeFf = document.getElementById("sub2RedeFf").value;
+      }
 
       const formData = new URLSearchParams();
       for (const key in payload) {
@@ -380,23 +567,26 @@
         });
 
         statusMsg.className = "status-box success";
-        statusMsg.innerText = "✓ Inspeção registrada com sucesso na planilha!";
+        statusMsg.innerText = `✓ Inspeção gravada com sucesso na aba [${equip}]!`;
         statusMsg.style.display = "block";
-        
+
         const currentDate = document.getElementById("data").value;
         const currentHora = document.getElementById("hora").value;
         const currentTurno = document.getElementById("turno").value;
         const currentNome = document.getElementById("nome").value;
-        
+        const currentEquip = selectEquip.value;
+
         form.reset();
-        
+
         document.getElementById("data").value = currentDate;
         document.getElementById("hora").value = currentHora;
         document.getElementById("turno").value = currentTurno;
         document.getElementById("nome").value = currentNome;
+        selectEquip.value = currentEquip;
+        selectEquip.dispatchEvent(new Event("change"));
       } catch (err) {
         statusMsg.className = "status-box error";
-        statusMsg.innerText = "✕ Erro ao registrar. Verifique a conexão com a internet.";
+        statusMsg.innerText = "✕ Erro ao registrar. Verifique a conexão.";
         statusMsg.style.display = "block";
       } finally {
         submitBtn.disabled = false;
