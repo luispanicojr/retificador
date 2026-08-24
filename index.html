@@ -463,133 +463,133 @@
   </div>
 
   <script>
-    // Cole aqui o link Web App da sua implantação
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyohOxP74eGK_PAIPfsEUxtmBLLuvZp3m1s3ZA1eEmUb0NA_D2pVADLEnpNAWJiCjK6/exec";
+  // Cole aqui o link Web App da sua implantação
+  const SCRIPT_URL = "SUA_URL_DO_APPS_SCRIPT_AQUI";
 
-    const selectEquip = document.getElementById("equipamento");
-    const badgeTag = document.getElementById("badgeTag");
-    const fieldsCgt1 = document.getElementById("fieldsCgt1");
-    const fieldsTrifasico = document.getElementById("fieldsTrifasico");
-    const fieldsSub2 = document.getElementById("fieldsSub2");
+  const selectEquip = document.getElementById("equipamento");
+  const badgeTag = document.getElementById("badgeTag");
+  const fieldsCgt1 = document.getElementById("fieldsCgt1");
+  const fieldsTrifasico = document.getElementById("fieldsTrifasico");
+  const fieldsSub2 = document.getElementById("fieldsSub2");
 
-    selectEquip.addEventListener("change", (e) => {
-      const equip = e.target.value;
-      badgeTag.innerText = equip;
+  selectEquip.addEventListener("change", (e) => {
+    const equip = e.target.value;
+    badgeTag.innerText = equip;
 
-      fieldsCgt1.classList.add("hidden");
-      fieldsTrifasico.classList.add("hidden");
-      fieldsSub2.classList.add("hidden");
+    fieldsCgt1.classList.add("hidden");
+    fieldsTrifasico.classList.add("hidden");
+    fieldsSub2.classList.add("hidden");
 
-      if (equip === "CGT-1") {
-        fieldsCgt1.classList.remove("hidden");
-      } else if (equip === "CGT-2" || equip === "SUBESTACAO-1") {
-        fieldsTrifasico.classList.remove("hidden");
-      } else if (equip === "SUBESTACAO-2") {
-        fieldsSub2.classList.remove("hidden");
-      }
-    });
+    if (equip === "CGT-1") {
+      fieldsCgt1.classList.remove("hidden");
+    } else if (equip === "CGT-2" || equip === "SUBESTACAO-1") {
+      fieldsTrifasico.classList.remove("hidden");
+    } else if (equip === "SUBESTACAO-2") {
+      fieldsSub2.classList.remove("hidden");
+    }
+  });
 
-    window.addEventListener("DOMContentLoaded", () => {
-      const now = new Date();
-      document.getElementById("data").value = now.toISOString().split("T")[0];
-      document.getElementById("hora").value = now.toTimeString().substring(0, 5);
-    });
+  window.addEventListener("DOMContentLoaded", () => {
+    const now = new Date();
+    document.getElementById("data").value = now.toISOString().split("T")[0];
+    document.getElementById("hora").value = now.toTimeString().substring(0, 5);
+  });
 
-    const form = document.getElementById("checklistForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const statusMsg = document.getElementById("statusMsg");
+  const form = document.getElementById("checklistForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const statusMsg = document.getElementById("statusMsg");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      submitBtn.disabled = true;
-      submitBtn.innerText = "Enviando dados...";
-      statusMsg.style.display = "none";
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Enviando dados...";
+    statusMsg.style.display = "none";
 
-      const equip = selectEquip.value;
-      let payload = {
-        equipamento: equip,
-        data: document.getElementById("data").value,
-        hora: document.getElementById("hora").value,
-        turno: document.getElementById("turno").value,
-        nome: document.getElementById("nome").value
-      };
+    const equip = selectEquip.value;
+    let payload = {
+      equipamento: equip,
+      data: document.getElementById("data").value || "",
+      hora: document.getElementById("hora").value || "",
+      turno: document.getElementById("turno").value || "",
+      nome: document.getElementById("nome").value || ""
+    };
 
-      if (equip === "CGT-1") {
-        payload.nivel = document.getElementById("cgt1Nivel").value;
-        payload.alarme = document.getElementById("cgt1Alarme").value;
-        payload.ahcPercent = document.getElementById("cgt1Ahc").value;
-        payload.retificadorTensao = document.getElementById("cgt1RetTensao").value;
-        payload.retificadorCorrente = document.getElementById("cgt1RetCorrente").value;
-        payload.consumidorTensao = document.getElementById("cgt1ConsTensao").value;
-        payload.consumidorCorrente = document.getElementById("cgt1ConsCorrente").value;
-        payload.ac = document.getElementById("cgt1Ac").value;
-        payload.corrente = document.getElementById("cgt1CorrenteAc").value;
-      } else if (equip === "CGT-2" || equip === "SUBESTACAO-1") {
-        payload.nivel = document.getElementById("triNivel").value;
-        payload.alarme = document.getElementById("triAlarme").value;
-        payload.batTensao = document.getElementById("triBatTensao").value;
-        payload.batCorrente = document.getElementById("triBatCorrente").value;
-        payload.consTensao = document.getElementById("triConsTensao").value;
-        payload.consCorrente = document.getElementById("triConsCorrente").value;
-        payload.retifTensao = document.getElementById("triRetifTensao").value;
-        payload.retifCorrente = document.getElementById("triRetifCorrente").value;
-        payload.redeR = document.getElementById("triRedeR").value;
-        payload.redeS = document.getElementById("triRedeS").value;
-        payload.redeT = document.getElementById("triRedeT").value;
-      } else if (equip === "SUBESTACAO-2") {
-        payload.alarme = document.getElementById("sub2Alarme").value;
-        payload.correnteAc = document.getElementById("sub2CorrenteAc").value;
-        payload.cons = document.getElementById("sub2Cons").value;
-        payload.corBat = document.getElementById("sub2CorBat").value;
-        payload.corCons = document.getElementById("sub2CorCons").value;
-        payload.corTotal = document.getElementById("sub2CorTotal").value;
-        payload.tempCarga = document.getElementById("sub2TempCarga").value;
-        payload.redeFf = document.getElementById("sub2RedeFf").value;
-      }
+    if (equip === "CGT-1") {
+      payload.nivel = document.getElementById("cgt1Nivel") ? document.getElementById("cgt1Nivel").value : "";
+      payload.alarme = document.getElementById("cgt1Alarme") ? document.getElementById("cgt1Alarme").value : "";
+      payload.ahcPercent = document.getElementById("cgt1Ahc") ? document.getElementById("cgt1Ahc").value : "";
+      payload.retificadorTensao = document.getElementById("cgt1RetTensao") ? document.getElementById("cgt1RetTensao").value : "";
+      payload.retificadorCorrente = document.getElementById("cgt1RetCorrente") ? document.getElementById("cgt1RetCorrente").value : "";
+      payload.consumidorTensao = document.getElementById("cgt1ConsTensao") ? document.getElementById("cgt1ConsTensao").value : "";
+      payload.consumidorCorrente = document.getElementById("cgt1ConsCorrente") ? document.getElementById("cgt1ConsCorrente").value : "";
+      payload.ac = document.getElementById("cgt1Ac") ? document.getElementById("cgt1Ac").value : "";
+      payload.corrente = document.getElementById("cgt1CorrenteAc") ? document.getElementById("cgt1CorrenteAc").value : "";
+    } else if (equip === "CGT-2" || equip === "SUBESTACAO-1") {
+      payload.nivel = document.getElementById("triNivel") ? document.getElementById("triNivel").value : "";
+      payload.alarme = document.getElementById("triAlarme") ? document.getElementById("triAlarme").value : "";
+      payload.batTensao = document.getElementById("triBatTensao") ? document.getElementById("triBatTensao").value : "";
+      payload.batCorrente = document.getElementById("triBatCorrente") ? document.getElementById("triBatCorrente").value : "";
+      payload.consTensao = document.getElementById("triConsTensao") ? document.getElementById("triConsTensao").value : "";
+      payload.consCorrente = document.getElementById("triConsCorrente") ? document.getElementById("triConsCorrente").value : "";
+      payload.retifTensao = document.getElementById("triRetifTensao") ? document.getElementById("triRetifTensao").value : "";
+      payload.retifCorrente = document.getElementById("triRetifCorrente") ? document.getElementById("triRetifCorrente").value : "";
+      payload.redeR = document.getElementById("triRedeR") ? document.getElementById("triRedeR").value : "";
+      payload.redeS = document.getElementById("triRedeS") ? document.getElementById("triRedeS").value : "";
+      payload.redeT = document.getElementById("triRedeT") ? document.getElementById("triRedeT").value : "";
+    } else if (equip === "SUBESTACAO-2") {
+      payload.alarme = document.getElementById("sub2Alarme") ? document.getElementById("sub2Alarme").value : "";
+      payload.correnteAc = document.getElementById("sub2CorrenteAc") ? document.getElementById("sub2CorrenteAc").value : "";
+      payload.cons = document.getElementById("sub2Cons") ? document.getElementById("sub2Cons").value : "";
+      payload.corBat = document.getElementById("sub2CorBat") ? document.getElementById("sub2CorBat").value : "";
+      payload.corCons = document.getElementById("sub2CorCons") ? document.getElementById("sub2CorCons").value : "";
+      payload.corTotal = document.getElementById("sub2CorTotal") ? document.getElementById("sub2CorTotal").value : "";
+      payload.tempCarga = document.getElementById("sub2TempCarga") ? document.getElementById("sub2TempCarga").value : "";
+      payload.redeFf = document.getElementById("sub2RedeFf") ? document.getElementById("sub2RedeFf").value : "";
+    }
 
-      const formData = new URLSearchParams();
-      for (const key in payload) {
-        formData.append(key, payload[key]);
-      }
+    const formData = new URLSearchParams();
+    for (const key in payload) {
+      formData.append(key, payload[key]);
+    }
 
-      try {
-        await fetch(SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          body: formData.toString()
-        });
+    try {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formData.toString()
+      });
 
-        statusMsg.className = "status-box success";
-        statusMsg.innerText = `✓ Inspeção salva na aba [${equip}] com sucesso!`;
-        statusMsg.style.display = "block";
+      statusMsg.className = "status-box success";
+      statusMsg.innerText = `✓ Inspeção gravada com sucesso na aba [${equip}]!`;
+      statusMsg.style.display = "block";
 
-        const currentDate = document.getElementById("data").value;
-        const currentHora = document.getElementById("hora").value;
-        const currentTurno = document.getElementById("turno").value;
-        const currentNome = document.getElementById("nome").value;
-        const currentEquip = selectEquip.value;
+      const currentDate = document.getElementById("data").value;
+      const currentHora = document.getElementById("hora").value;
+      const currentTurno = document.getElementById("turno").value;
+      const currentNome = document.getElementById("nome").value;
+      const currentEquip = selectEquip.value;
 
-        form.reset();
+      form.reset();
 
-        document.getElementById("data").value = currentDate;
-        document.getElementById("hora").value = currentHora;
-        document.getElementById("turno").value = currentTurno;
-        document.getElementById("nome").value = currentNome;
-        selectEquip.value = currentEquip;
-        selectEquip.dispatchEvent(new Event("change"));
-      } catch (err) {
-        statusMsg.className = "status-box error";
-        statusMsg.innerText = "✕ Erro ao registrar. Verifique a conexão.";
-        statusMsg.style.display = "block";
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Gravar Inspeção";
-      }
-    });
-  </script>
+      document.getElementById("data").value = currentDate;
+      document.getElementById("hora").value = currentHora;
+      document.getElementById("turno").value = currentTurno;
+      document.getElementById("nome").value = currentNome;
+      selectEquip.value = currentEquip;
+      selectEquip.dispatchEvent(new Event("change"));
+    } catch (err) {
+      statusMsg.className = "status-box error";
+      statusMsg.innerText = "✕ Erro ao registrar. Verifique a conexão.";
+      statusMsg.style.display = "block";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Gravar Inspeção";
+    }
+  });
+</script>
 </body>
 </html>
